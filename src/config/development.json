@@ -1,0 +1,8 @@
+{
+    "env": "development",
+    "log": {
+        "stdout": {
+            "level": "debug"
+        }
+    }
+}

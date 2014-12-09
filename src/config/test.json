@@ -1,0 +1,8 @@
+{
+    "env": "test",
+    "log": {
+        "stdout": {
+            "enable":  false
+        }
+    }
+}

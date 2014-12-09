@@ -1,0 +1,4 @@
+{
+    "name": "patterns",
+    "main": "./pattern.js"
+}

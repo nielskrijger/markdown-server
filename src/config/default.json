@@ -1,0 +1,18 @@
+{
+    "env": "production",
+    "port": 3000,
+    "banUnknownProperties": true,
+    "mongodb": {
+        "url": "mongodb://127.0.0.1:27017/patterncatalog",
+        "writeConcern": 1,
+        "backgroundIndex": false
+    },
+    "log": {
+        "name": "patterncatalog",
+        "hostname": "",
+        "stdout": {
+            "enable": true,
+            "level": "info"
+        }
+    }
+}
