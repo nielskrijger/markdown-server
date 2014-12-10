@@ -1,0 +1,11 @@
+patterncatalog:
+  build: .
+  ports:
+   - "3000:3000"
+  links:
+   - mongodb
+
+mongodb:
+  image: mongo:2.6
+  ports:
+   - "27017:27017"

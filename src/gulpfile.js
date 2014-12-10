@@ -14,6 +14,7 @@ require('jshint-stylish');
 gulp.task('lint', 'Lints all server side js', function() {
     return gulp.src([
         './*.js',
+        'lib/***/*.js',
         'app/**/*.js',
         'test/**/*.js'
     ]).pipe(jshint())
@@ -22,10 +23,10 @@ gulp.task('lint', 'Lints all server side js', function() {
 });
 
 gulp.task('plato', 'Generates code complexity, maintainability and style metrics', function() {
-    return gulp.src(['app/**/*.js', 'server.js'])
+    return gulp.src(['app/**/*.js', 'lib/***/*.js', 'app.js'])
         .pipe(plato('report', {
             jshint: {
-                options: JSON.parse(fs.readFileSync('../.jshintrc')) // Plato doesn't read automatically from .jshintrc
+                options: JSON.parse(fs.readFileSync('.jshintrc')) // Plato doesn't read automatically from .jshintrc
             },
             complexity: {
                 trycatch: true
@@ -33,34 +34,23 @@ gulp.task('plato', 'Generates code complexity, maintainability and style metrics
         }));
 });
 
-// gulp.task('test', 'Runs all unit and API tests', function(cb) {
-//     gulp.src(['app/**/*.js', 'server.js'])
-//         .pipe(istanbul()) // Covering files
-//         .pipe(istanbul.hookRequire()) // Force `require` to return covered files
-//         .on('finish', function() {
-//             gulp.src(['test/**/*.js'])
-//                 .pipe(mocha({
-//                     reporter: 'spec',
-//                     timeout: 10000
-//                 }))
-//                 .pipe(istanbul.writeReports({
-//                     reporters: ['lcov', 'json', 'text', 'text-summary']
-//                 }))
-//                 .on('end', cb);
-//         });
-// });
-
-gulp.task('test', function (cb) {
-    gulp.src(['app/**/*.js', 'server.js'])
-    .pipe(istanbul()) // Covering files
-    .pipe(istanbul.hookRequire()) // Force `require` to return covered files
-    .on('finish', function () {
-        gulp.src(['test/app/pattern/*.js'])
-        .pipe(mocha())
-        .pipe(istanbul.writeReports()) // Creating the reports after tests runned
-        .on('end', cb);
-    });
+gulp.task('test', 'Runs all unit and API tests', function(cb) {
+    gulp.src(['app/**/*.js', 'lib/**/*.js', 'app.js'])
+        .pipe(istanbul()) // Covering files
+        .pipe(istanbul.hookRequire()) // Force `require` to return covered files
+        .on('finish', function() {
+            gulp.src(['test/**/*.js'])
+                .pipe(mocha({
+                    reporter: 'spec',
+                    timeout: 10000
+                }))
+                .pipe(istanbul.writeReports({
+                    reporters: ['lcov', 'json', 'text', 'text-summary']
+                }))
+                .on('end', cb);
+        });
 });
+
 gulp.task('clean-reports', 'Removes code coverage and reporting files', function() {
     return gulp.src(['./coverage', './report'], {
         read: false

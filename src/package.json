@@ -1,7 +1,7 @@
 {
   "name": "patterncatalog",
   "version": "0.0.1",
-  "description": "Stores patterns and pattern languages",
+  "description": "Backed REST API for PatternCatalog.org",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -15,10 +15,14 @@
     "restify": "^2.8.3",
     "bunyan": "^1.2.3",
     "mongodb": "^1.4.20",
-    "nconf": "^0.6.9",
     "node-uuid": "^1.4.1",
     "moment": "^2.8.4",
-    "bluebird": "^2.3.11"
+    "bluebird": "^2.3.11",
+    "convict": "~0.6.0",
+    "tv4": "~1.1.5",
+    "underscore": "~1.7.0",
+    "markdown": "~0.5.0",
+    "slug": "~0.8.0"
   },
   "devDependencies": {
     "gulp": "^3.8.10",

@@ -4,7 +4,7 @@
     "indent": 4,
     "trailing": true,
     "quotmark": "single",
-    "curly": true,
+    "curly": false,
     "white": false,
     "strict": true,
     "globals": {

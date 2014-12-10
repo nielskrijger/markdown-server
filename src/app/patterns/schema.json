@@ -1,0 +1,16 @@
+{
+    "title": "Pattern schema",
+    "properties": {
+        "name": {
+            "type": "string",
+            "maxLength": 50
+        },
+        "markdown": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "name",
+        "markdown"
+    ]
+}

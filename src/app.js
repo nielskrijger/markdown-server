@@ -5,7 +5,8 @@ var config = require('./lib/config');
 var mongodb = require('./lib/mongodb');
 var patterns = require('./app/patterns');
 var log = require('./lib/logger');
-var error = require('./lib/error');
+var dbInit = require('./app/models/init');
+var ResourceNotFoundError = require('./lib/RestErrors').ResourceNotFoundError;
 
 // Create restify server
 var server = restify.createServer({
@@ -48,7 +49,7 @@ server.post('/patterns', patterns.postPattern);
 // Page not found (404)
 server.on('NotFound', function(req, res) {
     if (req.accepts('json')) {
-        res.send(new error.ResourceNotFoundError('Resource not found'));
+        res.send(new ResourceNotFoundError('Resource not found'));
     } else {
         res.contentType = 'text/html';
         res.send('404: Resource not found');
@@ -56,7 +57,11 @@ server.on('NotFound', function(req, res) {
 });
 
 function initApplication() {
-    return mongodb.connect(config.get('mongodb:url'))
+    return mongodb.connect(config.get('mongodb.url'))
+        .then(function() {
+            log.info('Creating MongoDB indexes when required');
+            return dbInit();
+        })
         .then(function() {
             return server.listen(3000, function() {
                 var host = server.address().address;

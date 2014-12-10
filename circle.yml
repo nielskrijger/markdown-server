@@ -1,0 +1,24 @@
+# See for more information https://circleci.com/docs/docker
+machine:
+  services:
+    - docker
+
+dependencies:
+  cache_directories:
+    - "~/docker"
+  override:
+    - docker info
+    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
+    - docker build -t nielskrijger/patterncatalog .
+    - mkdir -p ~/docker; docker save nielskrijger/patterncatalog > ~/docker/image.tar
+
+test:
+  override:
+    - docker run -p 3000:3000 nielskrijger/patterncatalog npm test
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push nielskrijger/patterncatalog

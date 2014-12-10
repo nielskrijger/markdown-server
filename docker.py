@@ -27,8 +27,8 @@ def parse_args():
                        help='the mongodb port number')
     parser.add_argument('--mongodb-db', default='patterncatalog', type=str,
                        help='the mongodb database name')
-    parser.add_argument('--tag', default='patterncatalog', type=str,
-                       help='the image name')
+    parser.add_argument('--tag', default='patterncatalog/api:latest', type=str,
+                       help='the repository and (optionally) tag')
     parser.add_argument('--name', default='patterncatalog', type=str,
                        help='the running container name')
     return vars(parser.parse_args())
@@ -71,12 +71,13 @@ def action_run(args):
             print(subprocess.call('$(boot2docker shellinit)', shell=True))
 
     mongodb_url = "mongodb://{0}:{1}/{2}".format(get_mongodb_ip(args['mongodb_container']), args['mongodb_port'], args['mongodb_db'])
-    cmd = "docker run -p 3000:3000 -d -t --name {0} -e MONGODB_URL={1} {2}".format(args['name'], mongodb_url, args['tag'])
+    cmd = "docker run -p 3000:3000 -d -t --name {0} -e mongodb_url={1} {2}".format(args['name'], mongodb_url, args['tag'])
+    print(cmd)
     subprocess.call(cmd, shell=True)
 
 def action_build(args):
     """Builds docker image"""
-    command = 'docker build --tag="{}" .'.format(args['tag'])
+    command = 'docker build -t="{}" .'.format(args['tag'])
     print(command)
     ls_output = subprocess.call(command, shell=True)
     print(ls_output)

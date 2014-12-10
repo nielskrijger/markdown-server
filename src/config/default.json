@@ -1,18 +1,58 @@
 {
-    "env": "production",
-    "port": 3000,
-    "banUnknownProperties": true,
+    "env": {
+        "doc": "The applicaton environment.",
+        "format": ["local", "development", "test", "production"],
+        "default": "development",
+        "env": "NODE_ENV"
+    },
+    "port": {
+        "doc": "The port to bind to.",
+        "format": "port",
+        "default": 3000,
+        "env": "PORT"
+    },
+    "banUnknownProperties": {
+        "doc": "All unknown request properties raise an error during validation.",
+        "default": true
+    },
     "mongodb": {
-        "url": "mongodb://127.0.0.1:27017/patterncatalog",
-        "writeConcern": 1,
-        "backgroundIndex": false
+        "url": {
+            "doc": "The mongodb connection uri.",
+            "format": "*",
+            "default": "mongodb://mongodb:27017/patterncatalog",
+            "env": "MONGODB_URL"
+        },
+        "writeConcern": {
+            "doc": "MongoDB writeconcern setting.",
+            "format": "*",
+            "default": "1"
+        },
+        "createIndexInBackground": {
+            "doc": "Builds indexes in the background, this is particularly useful for production databases.",
+            "default": false
+        }
     },
     "log": {
-        "name": "patterncatalog",
-        "hostname": "",
+        "name": {
+            "doc": "The name of the logger. Typically this is the name of the service/app being logged.",
+            "format": "*",
+            "default": "stamps"
+        },
+        "hostname": {
+            "doc": "The hostname sent to the log output. When empty the hostname is automatically fetched from the operating system.",
+            "format": "*",
+            "default": ""
+        },
         "stdout": {
-            "enable": true,
-            "level": "info"
+            "enable": {
+                "doc": "Print to the standard output (usually the console).",
+                "default": true
+            },
+            "level": {
+                "doc": "Log everything from this level and above.",
+                "format": ["trace", "debug", "info", "warn", "error", "fatal"],
+                "default": "info"
+            }
         }
     }
 }
