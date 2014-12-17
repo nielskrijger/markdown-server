@@ -6,7 +6,7 @@ machine:
 dependencies:
   override:
     - docker info
-    - pip install -U fig
+    - sudo pip install -U fig
     - fig build
 
 test:
