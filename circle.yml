@@ -1,12 +1,14 @@
 # See for more information https://circleci.com/docs/docker
 machine:
+  python:
+    version: 2.7.3
   services:
     - docker
 
 dependencies:
   override:
     - docker info
-    - sudo pip install -U fig
+    - pip install -U fig
     - fig build
 
 test:
