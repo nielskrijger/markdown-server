@@ -1,7 +1,6 @@
 # See for more information https://circleci.com/docs/docker
 machine:
   services:
-    - node
     - docker
     - python
 
@@ -13,7 +12,7 @@ dependencies:
 
 test:
   override:
-    - fig up
+    - fig up -d
     - docker exec patterncatalog_app_1 sudo npm install gulp -g
     - docker exec -it patterncatalog_app_1 sudo npm run test
 
