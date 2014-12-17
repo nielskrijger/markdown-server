@@ -10,7 +10,7 @@ dependencies:
 
 test:
   override:
-    - docker run -d --name=db mongodb:2.6
+    - docker run -d --name=db mongo:2.6
     - docker run --env-file=./deploy/environment_variables --link=db:db nielskrijger/patterncatalog:latest npm run test
 
 deployment:
@@ -18,7 +18,6 @@ deployment:
     branch: master
     commands:
       - docker images
-      - docker tag patterncatalog_app_1 nielskrijger/patterncatalog:latest
-      - docker tag patterncatalog_app_1 nielskrijger/patterncatalog:$CIRCLE_SHA1
+      - docker tag $(docker ps -l -q) nielskrijger/patterncatalog:$CIRCLE_SHA1
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push nielskrijger/patterncatalog
