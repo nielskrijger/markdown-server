@@ -1,20 +1,17 @@
 # See for more information https://circleci.com/docs/docker
 machine:
-  python:
-    version: 2.7.3
   services:
     - docker
 
 dependencies:
   override:
     - docker info
-    - pip install -U fig
-    - fig build
+    - docker build -t nielskrijger/patterncatalog:latest .
 
 test:
   override:
-    - fig up -d db
-    - docker run --env-file=./deploy/environment_variables patterncatalog_app_1 npm run test
+    - docker run -d --name=db mongodb:2.6
+    - docker run --env-file=./deploy/environment_variables --link=db:db nielskrijger/patterncatalog:latest npm run test
 
 deployment:
   hub:
