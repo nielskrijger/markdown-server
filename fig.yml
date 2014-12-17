@@ -3,12 +3,13 @@ app:
   ports:
     - "3000:3000"
   links:
-    - mongodb
-  environment:
+    - db
+  environment: # TODO: replace with env_file (/deploy/environment_variables) when new fig version is released
+    - MONGODB_URL
     - LOGENTRIES_LEVEL
     - LOGENTRIES_TOKEN
 
-mongodb:
+db:
   image: mongo:2.6
   ports:
     - "27017:27017"

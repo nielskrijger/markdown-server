@@ -13,9 +13,8 @@ dependencies:
 
 test:
   override:
-    - fig up -d
-    - docker exec patterncatalog_app_1 sudo npm install gulp -g
-    - docker exec -it patterncatalog_app_1 sudo npm run test
+    - fig up -d db
+    - docker run --env-file=./deploy/environment_variables nielskrijger/patterncatalog npm run test
 
 deployment:
   hub:
