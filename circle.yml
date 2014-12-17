@@ -14,12 +14,14 @@ dependencies:
 test:
   override:
     - fig up -d db
-    - docker run --env-file=./deploy/environment_variables nielskrijger/patterncatalog npm run test
+    - docker run --env-file=./deploy/environment_variables patterncatalog_app_1 npm run test
 
 deployment:
   hub:
     branch: master
     commands:
+      - docker images
       - docker tag patterncatalog_app_1 nielskrijger/patterncatalog:latest
+      - docker tag patterncatalog_app_1 nielskrijger/patterncatalog:$CIRCLE_SHA1
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push nielskrijger/patterncatalog
