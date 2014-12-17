@@ -2,7 +2,6 @@
 machine:
   services:
     - docker
-    - python
 
 dependencies:
   override:
