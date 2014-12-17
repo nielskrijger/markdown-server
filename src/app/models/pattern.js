@@ -23,12 +23,16 @@ module.exports.create = function(pattern) {
 };
 
 module.exports.get = function(slug) {
+    var options = {
+        'sort': ['rev', 'desc']
+    };
     return db.collection('patterns')
-        .findAsync({slug:slug}).sort([['rev', -1]]).limit(1)
-        .then(function(records) {
-            return records[0];
+        .findOneAsync({slug:slug}, options)
+        .then(function(pattern) {
+            return pattern;
         })
         .catch(function(err) {
+            console.log(err);
             throw new DatabaseError('Database error', err);
         });
 };

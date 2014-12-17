@@ -7,6 +7,7 @@ var assert = require('chai').assert;
 var _ = require('underscore');
 var config = require('../lib/config');
 var mongodb = require('../lib/mongodb');
+var log = require('../lib/logger');
 var server = require('../app');
 
 var path = 'http://127.0.0.1:' + config.get('port');
@@ -24,10 +25,13 @@ module.exports.startEnvironment = function(callback) {
  * Always close the entire e2e environment to ensure mocha quits after all tests are finished.
  */
 module.exports.stopEnvironment = function(callback) {
-    mongodb.connection().close(function(err) {
-        runningServer.close();
-        callback();
-    });
+    mongodb.connection()
+        .closeAsync()
+        .then(function() {
+            runningServer.close(function() {
+                callback();
+            });
+        });
 };
 
 module.exports.postPattern = function(pattern, callback) {
@@ -37,6 +41,14 @@ module.exports.postPattern = function(pattern, callback) {
     }, callback);
 };
 
+module.exports.getPattern = function(slug, callback) {
+    request.get({
+        uri: path + '/api/patterns/' + slug,
+        json: true
+    }, callback);
+};
+
+// TODO add validation method to body
 module.exports.hasValidationError = function(body, dataPath, code, params) {
     assert.equal(body.status, 400);
     assert.equal(body.code, 'ValidationError');

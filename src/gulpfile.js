@@ -4,10 +4,11 @@ var fs = require('fs');
 var gulp = require('gulp-help')(require('gulp'));
 var runSequence = require('run-sequence');
 var jshint = require('gulp-jshint');
-var mocha = require('gulp-mocha');
+var mocha = require('gulp-spawn-mocha');
 var istanbul = require('gulp-istanbul');
 var plato = require('gulp-plato');
 var clean = require('gulp-clean');
+var coveralls = require('gulp-coveralls');
 
 require('jshint-stylish');
 
@@ -35,20 +36,16 @@ gulp.task('plato', 'Generates code complexity, maintainability and style metrics
 });
 
 gulp.task('test', 'Runs all unit and API tests', function(cb) {
-    gulp.src(['app/**/*.js', 'lib/**/*.js', 'app.js'])
-        .pipe(istanbul()) // Covering files
-        .pipe(istanbul.hookRequire()) // Force `require` to return covered files
-        .on('finish', function() {
-            gulp.src(['test/**/*.js'])
-                .pipe(mocha({
-                    reporter: 'spec',
-                    timeout: 10000
-                }))
-                .pipe(istanbul.writeReports({
-                    reporters: ['lcov', 'json', 'text', 'text-summary']
-                }))
-                .on('end', cb);
-        });
+    return gulp
+        .src(['test/**/*.js'])
+        .pipe(mocha({
+            istanbul: true
+        }));
+});
+
+gulp.task('coveralls', 'Pushes coverage data to coveralls.io', function() {
+    return gulp.src('coverage/lcov.info')
+        .pipe(coveralls());
 });
 
 gulp.task('clean-reports', 'Removes code coverage and reporting files', function() {
@@ -59,19 +56,20 @@ gulp.task('clean-reports', 'Removes code coverage and reporting files', function
     }));
 });
 
-gulp.task('build', 'Runs lint, test and code coverage tasks', function(callback) {
+gulp.task('build', 'Runs lint, tests, code coverage and metric reports', function(callback) {
     runSequence(
         'lint',
-        'test',
         'clean-reports',
+        'test',
         'plato',
-        function() {
-            callback();
-
-            // This is a hack, haven't been able to figure out why it doesn't close normally...
-            process.exit(0);
-        });
+        callback);
 });
 
+gulp.task('build-coverage', 'Same as build but sends coverage data to coveralls as well', function(callback) {
+    runSequence(
+        'build',
+        'coveralls',
+        callback);
+});
 
 gulp.task('default', 'Default task', ['build']);

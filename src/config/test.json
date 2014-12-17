@@ -1,11 +1,8 @@
 {
     "env": "test",
     "log": {
-        "stdout": {
-            "level": "debug"
-        },
         "logentries": {
-            "level": "none"
+            "level": "debug"
         }
     }
 }

@@ -1,13 +1,11 @@
 'use strict';
 
-var mongoClient = require('mongodb').MongoClient;
-var collection = require('mongodb').Collection;
-var Promise = require('bluebird');
+var BPromise = require('bluebird');
+var mongodb = BPromise.promisifyAll(require('mongodb'));
+var mongoClient = mongodb.MongoClient;
+var collection = mongodb.Collection;
 
-Promise.promisifyAll(collection.prototype);
-Promise.promisifyAll(mongoClient);
-
-var mongodb = {
+var mongo = {
 
     conn: null,
 
@@ -36,4 +34,4 @@ var mongodb = {
     }
 };
 
-module.exports = mongodb;
+module.exports = mongo;
