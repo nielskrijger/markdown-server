@@ -32,7 +32,7 @@ module.exports.stopEnvironment = function(callback) {
 
 module.exports.postPattern = function(pattern, callback) {
     request.post({
-        uri: path + '/patterns',
+        uri: path + '/api/patterns',
         json: pattern
     }, callback);
 };

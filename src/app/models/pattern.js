@@ -22,6 +22,17 @@ module.exports.create = function(pattern) {
         });
 };
 
+module.exports.get = function(slug) {
+    return db.collection('patterns')
+        .findAsync({slug:slug}).sort([['rev', -1]]).limit(1)
+        .then(function(records) {
+            return records[0];
+        })
+        .catch(function(err) {
+            throw new DatabaseError('Database error', err);
+        });
+};
+
 function generateId(pattern) {
     return pattern.slug + ':' + pattern.rev;
 }

@@ -2,7 +2,10 @@
     "env": "test",
     "log": {
         "stdout": {
-            "enable":  false
+            "level": "debug"
+        },
+        "logentries": {
+            "level": "none"
         }
     }
 }

@@ -1,11 +1,14 @@
-patterncatalog:
+app:
   build: .
   ports:
-   - "3000:3000"
+    - "3000:3000"
   links:
-   - mongodb
+    - mongodb
+  environment:
+    - LOGENTRIES_LEVEL
+    - LOGENTRIES_TOKEN
 
 mongodb:
   image: mongo:2.6
   ports:
-   - "27017:27017"
+    - "27017:27017"

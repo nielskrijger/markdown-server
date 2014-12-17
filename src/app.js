@@ -40,11 +40,8 @@ log.info('Server node.js version: ' + process.version);
 log.info('Server architecture: ' + process.platform);
 
 // Routes
-server.get('/', function(req, res) {
-    res.send('Hello World!');
-});
-
-server.post('/patterns', patterns.postPattern);
+server.post('/api/patterns', patterns.postPattern);
+server.get('/api/patterns/:slug', patterns.getPattern);
 
 // Page not found (404)
 server.on('NotFound', function(req, res) {

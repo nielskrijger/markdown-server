@@ -57,13 +57,25 @@ describe('patterns/pattern.js:', function() {
             });
         });
 
-        it('should fail when name is already in use', function(done) {
+        it.skip('should fail when name is already in use', function(done) {
             e2e.postPattern(pattern, function(err, res, body) {
                 e2e.postPattern(pattern, function(err, res, body) {
                     console.log(err);
                     console.log(body);
                     done();
                 });
+            });
+        });
+    });
+
+    describe('get pattern', function(done) {
+        e2e.postPattern(pattern, function(err, res, body) {
+            console.log(body);
+            console.log(err);
+            e2e.getPattern(body.slug, function(err, res, body) {
+                console.log(err);
+                console.log(body);
+                done();
             });
         });
     });

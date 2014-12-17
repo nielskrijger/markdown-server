@@ -3,6 +3,9 @@
     "log": {
         "stdout": {
             "level": "debug"
+        },
+        "logentries": {
+            "level": "none"
         }
     }
 }

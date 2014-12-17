@@ -2,7 +2,7 @@
     "env": {
         "doc": "The applicaton environment.",
         "format": ["local", "development", "test", "production"],
-        "default": "development",
+        "default": "production",
         "env": "NODE_ENV"
     },
     "port": {
@@ -36,22 +36,34 @@
         "name": {
             "doc": "The name of the logger. Typically this is the name of the service/app being logged.",
             "format": "*",
-            "default": "stamps"
+            "default": "patterncatalog",
+            "env": "LOG_NAME"
         },
         "hostname": {
             "doc": "The hostname sent to the log output. When empty the hostname is automatically fetched from the operating system.",
             "format": "*",
-            "default": ""
+            "default": "",
+            "env": "LOG_HOSTNAME"
         },
         "stdout": {
-            "enable": {
-                "doc": "Print to the standard output (usually the console).",
-                "default": true
-            },
             "level": {
-                "doc": "Log everything from this level and above.",
-                "format": ["trace", "debug", "info", "warn", "error", "fatal"],
-                "default": "info"
+                "doc": "Log everything from this level and above. Set 'none' to disable the log stream.",
+                "format": ["none", "trace", "debug", "info", "warn", "error", "fatal"],
+                "default": "none",
+                "env": "LOG_STDOUT_LEVEL"
+            }
+        },
+        "logentries": {
+            "level": {
+                "doc": "Log everything from this level and above. Set to 'none' to disable the log stream.",
+                "format": ["none", "trace", "debug", "info", "warn", "error", "fatal"],
+                "default": "info",
+                "env": "LOGENTRIES_LEVEL"
+            },
+            "token": {
+                "doc": "The log entries token.",
+                "default": "",
+                "env": "LOGENTRIES_TOKEN"
             }
         }
     }

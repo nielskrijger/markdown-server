@@ -1,7 +1,6 @@
 'use strict';
 
 var BPromise = require('bluebird');
-var async = require('async');
 var db = require('../../lib/mongodb');
 var config = require('../../lib/config');
 var DatabaseError = require('../../lib/RestErrors').DatabaseError;

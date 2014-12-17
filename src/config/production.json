@@ -1,8 +1,2 @@
 {
-    "env": "production",
-    "log": {
-        "stdout": {
-            "enable":  false
-        }
-    }
 }
