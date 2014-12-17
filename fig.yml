@@ -8,6 +8,7 @@ app:
     - MONGODB_URL
     - LOGENTRIES_LEVEL
     - LOGENTRIES_TOKEN
+    - COVERALLS_REPO_TOKEN
 
 db:
   image: mongo:2.6

@@ -11,7 +11,7 @@ dependencies:
 test:
   override:
     - docker run -d --name=db mongo:2.6
-    - docker run --env-file=./deploy/environment_variables --link=db:db nielskrijger/patterncatalog:latest npm run test
+    - docker run --env-file=./deploy/environment_variables --link=db:db nielskrijger/patterncatalog:latest npm run build-coverage
 
 deployment:
   hub:
