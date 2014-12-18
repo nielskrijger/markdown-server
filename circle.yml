@@ -18,6 +18,6 @@ deployment:
     branch: master
     commands:
       - docker images
-      - docker tag $(docker ps -l -q) nielskrijger/patterncatalog:$CIRCLE_SHA1
+      - docker tag nielskrijger/patterncatalog:latest nielskrijger/patterncatalog:$CIRCLE_SHA1
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push nielskrijger/patterncatalog
