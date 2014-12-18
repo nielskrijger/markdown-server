@@ -33,22 +33,10 @@
         }
     },
     "log": {
-        "name": {
-            "doc": "The name of the logger. Typically this is the name of the service/app being logged.",
-            "format": "*",
-            "default": "patterncatalog",
-            "env": "LOG_NAME"
-        },
-        "hostname": {
-            "doc": "The hostname sent to the log output. When empty the hostname is automatically fetched from the operating system.",
-            "format": "*",
-            "default": "",
-            "env": "LOG_HOSTNAME"
-        },
         "stdout": {
             "level": {
                 "doc": "Log everything from this level and above. Set 'none' to disable the log stream.",
-                "format": ["none", "trace", "debug", "info", "warn", "error", "fatal"],
+                "format": ["none", "verbose", "debug", "info", "warn", "error"],
                 "default": "none",
                 "env": "LOG_STDOUT_LEVEL"
             }
@@ -56,7 +44,7 @@
         "logentries": {
             "level": {
                 "doc": "Log everything from this level and above. Set to 'none' to disable the log stream.",
-                "format": ["none", "trace", "debug", "info", "warn", "error", "fatal"],
+                "format": ["none", "verbose", "debug", "info", "warn", "error"],
                 "default": "info",
                 "env": "LOGENTRIES_LEVEL"
             },

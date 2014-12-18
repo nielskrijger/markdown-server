@@ -82,7 +82,7 @@ function initApplication() {
             });
         })
         .catch(function(e) {
-            log.fatal(e);
+            log.error('An error occurred during initialization', e);
         });
 }
 
