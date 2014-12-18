@@ -9,7 +9,7 @@
     "build": "gulp build",
     "ci": "gulp ci",
     "precommit": "gulp lint",
-    "prepush": "gulp test"
+    "prepush": "gulp build"
   },
   "author": "Niels Krijger <niels@kryger.nl>",
   "license": "All Rights Reserved",
@@ -27,7 +27,8 @@
     "compression": "~1.2.2",
     "lodash": "~2.4.1",
     "winston": "~0.8.3",
-    "winston-logentries": "~1.0.1"
+    "winston-logentries": "~1.0.1",
+    "method-override": "~2.3.0"
   },
   "devDependencies": {
     "gulp": "^3.8.10",

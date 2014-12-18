@@ -2,42 +2,18 @@
 
 var app = require('express')();
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 var compression = require('compression');
 var config = require('./lib/config');
 var mongodb = require('./lib/mongodb');
 var patterns = require('./app/patterns');
 var log = require('./lib/logger');
 var dbInit = require('./app/models/init');
-var ResourceNotFoundError = require('./lib/RestErrors').ResourceNotFoundError;
-
-/* Keep here for now
-// Create restify server
-var server = restify.createServer({
-    formatters: {
-        // Parse json manually to allow custom error format
-        'application/json': function customizedFormatJSON(req, res, body) {
-            if (body instanceof Error) {
-                res.statusCode = body.status || 500;
-                body = body;
-            } else if (Buffer.isBuffer(body)) {
-                body = body.toString('base64');
-            }
-            var data = JSON.stringify(body);
-            res.setHeader('Content-Length', Buffer.byteLength(data));
-            return data;
-        }
-    }
-});
-
-server.use(restify.acceptParser(server.acceptable));
-server.use(restify.bodyParser());
-server.use(restify.queryParser());
-server.use(restify.gzipResponse());
-*/
 
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride());
 
 // Log startup information
 log.info('Server run mode: ' + config.get('env'));
@@ -51,21 +27,26 @@ log.info('Server architecture: ' + process.platform);
 app.post('/api/patterns', patterns.postPattern);
 app.get('/api/patterns/:slug', patterns.getPattern);
 
-/*
-// Page not found (404)
-server.on('NotFound', function(req, res) {
-    if (req.accepts('json')) {
-        res.send(new ResourceNotFoundError('Resource not found'));
-    } else {
-        res.contentType = 'text/html';
-        res.send('404: Resource not found');
-    }
-});
-*/
-
-app.use(function(req, res, next){
+app.use(function(req, res, next) {
+    // TODO return proper error with the same format as other errors
     res.status(404).json('Page not found');
 });
+app.use(logErrors);
+app.use(errorHandler);
+
+function logErrors(err, req, res, next) {
+    if (err.status && err.status < 500) {
+        log.info('Client error', err);
+    } else {
+        log.error('Server error', err);
+    }
+    next(err);
+}
+
+function errorHandler(err, req, res, next) {
+    res.status(err.status);
+    res.json(err);
+}
 
 function initApplication() {
     return mongodb.connect(config.get('mongodb.url'))
