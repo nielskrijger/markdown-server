@@ -5,11 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
+    "lint": "gulp lint",
     "test": "gulp test",
     "build": "gulp build",
-    "ci": "gulp ci",
-    "precommit": "gulp lint",
-    "prepush": "gulp build"
+    "ci": "gulp ci"
   },
   "author": "Niels Krijger <niels@kryger.nl>",
   "license": "All Rights Reserved",
