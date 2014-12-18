@@ -1,20 +1,19 @@
 {
   "name": "patterncatalog",
   "version": "0.0.1",
-  "description": "Backed REST API for PatternCatalog.org",
+  "description": "REST API for PatternCatalog.org",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "test": "gulp test",
     "build": "gulp build",
-    "build-coverage": "gulp build-coverage",
+    "ci": "npm install -g gulp && gulp build-coverage",
     "precommit": "gulp lint",
     "prepush": "gulp test"
   },
   "author": "Niels Krijger <niels@kryger.nl>",
   "license": "All Rights Reserved",
   "dependencies": {
-    "restify": "^2.8.3",
     "bunyan": "^1.2.3",
     "mongodb": "^1.4.20",
     "node-uuid": "^1.4.1",
@@ -25,14 +24,16 @@
     "underscore": "~1.7.0",
     "markdown": "~0.5.0",
     "slug": "~0.8.0",
-    "bunyan-logentries": "~0.1.0"
+    "bunyan-logentries": "~0.1.0",
+    "express": "~4.10.6",
+    "body-parser": "~1.10.0",
+    "compression": "~1.2.2"
   },
   "devDependencies": {
     "gulp": "^3.8.10",
     "gulp-jshint": "^1.9.0",
     "gulp-spawn-mocha": "~0.5.1",
     "gulp-istanbul": "~0.5.0",
-    "gulp-plato": "^1.0.1",
     "run-sequence": "^1.0.1",
     "jshint-stylish": "^1.0.0",
     "gulp-clean": "^0.3.1",
@@ -42,6 +43,7 @@
     "mocha": "~2.0.1",
     "chai": "^1.10.0",
     "request": "^2.48.0",
-    "gulp-coveralls": "~0.1.3"
+    "gulp-coveralls": "~0.1.3",
+    "gulp-mocha": "~2.0.0"
   }
 }

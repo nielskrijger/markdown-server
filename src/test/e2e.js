@@ -8,29 +8,24 @@ var _ = require('underscore');
 var config = require('../lib/config');
 var mongodb = require('../lib/mongodb');
 var log = require('../lib/logger');
-var server = require('../app');
+var app = require('../app');
 
 var path = 'http://127.0.0.1:' + config.get('port');
 
-var runningServer = null;
+var testServer = null;
 
 module.exports.startEnvironment = function(callback) {
-    return server.then(function(server) {
-        runningServer = server;
+    return app.then(function(server) {
+        testServer = server;
         callback();
     });
 };
 
-/**
- * Always close the entire e2e environment to ensure mocha quits after all tests are finished.
- */
 module.exports.stopEnvironment = function(callback) {
     mongodb.connection()
         .closeAsync()
         .then(function() {
-            runningServer.close(function() {
-                callback();
-            });
+            testServer.close(callback);
         });
 };
 

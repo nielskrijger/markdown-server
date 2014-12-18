@@ -1,3 +1,5 @@
+[![Coverage Status](https://img.shields.io/coveralls/nielskrijger/patterncatalog.svg)](https://coveralls.io/r/nielskrijger/patterncatalog?branch=master)
+
 # PatternCatalog
 
 Under development.
