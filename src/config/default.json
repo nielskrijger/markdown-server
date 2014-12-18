@@ -19,7 +19,7 @@
         "url": {
             "doc": "The mongodb connection uri.",
             "format": "*",
-            "default": "mongodb://mongodb:27017/patterncatalog",
+            "default": "mongodb://db:27017/patterncatalog",
             "env": "MONGODB_URL"
         },
         "writeConcern": {
