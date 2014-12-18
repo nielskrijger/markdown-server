@@ -7,7 +7,7 @@
     "start": "node app.js",
     "test": "gulp test",
     "build": "gulp build",
-    "ci": "npm install -g gulp && gulp build-coverage",
+    "ci": "gulp ci",
     "precommit": "gulp lint",
     "prepush": "gulp test"
   },
