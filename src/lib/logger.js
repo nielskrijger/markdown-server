@@ -37,4 +37,8 @@ var logger = new winston.Logger({
     transports: transports
 });
 
+logger.on('error', function(err) {
+    console.log('Error occurred while processing a log message: ' + err);
+});
+
 module.exports = logger;

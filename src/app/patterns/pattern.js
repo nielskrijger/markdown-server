@@ -13,7 +13,7 @@ module.exports.postPattern = function(req, res, next) {
         .then(function(pattern) {
             res.setHeader('Location', '/api/patterns/' + pattern.slug);
             res.status(201).json(patternResponse(pattern));
-            log.debug({ msg: 'Sent response', object: pattern });
+            log.debug('Created new pattern', { object: pattern });
         })
         .catch(function(err) {
             return next(err);

@@ -74,12 +74,24 @@ function initApplication() {
             return dbInit();
         })
         .then(function() {
-            return app.listen(3000, function() {
+            var server = app.listen(3000, function() {
                 var host = this.address().address;
                 var port = this.address().port;
 
                 log.info('Application listening on http://%s:%s', host, port);
             });
+            function exitHandler() {
+                log.info('Shutting down application server, waiting for HTTP connections to finish');
+                server.close(function () {
+                    mongodb.connection().close(function() {
+                        log.info('Server stopped');
+                        process.exit(0);
+                    });
+                });
+            }
+            process.on('SIGINT', exitHandler);
+            process.on('SIGTERM', exitHandler);
+            return server;
         })
         .catch(function(e) {
             log.error('An error occurred during initialization', e);

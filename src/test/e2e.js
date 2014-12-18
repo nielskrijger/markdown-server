@@ -4,7 +4,7 @@ process.env.NODE_ENV = 'test'; // set node environment to load correct configura
 
 var request = require('request');
 var assert = require('chai').assert;
-var _ = require('underscore');
+var _ = require('lodash');
 var config = require('../lib/config');
 var mongodb = require('../lib/mongodb');
 var log = require('../lib/logger');
