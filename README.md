@@ -1,4 +1,4 @@
-[![Coverage Status](https://img.shields.io/coveralls/nielskrijger/patterncatalog.svg)](https://coveralls.io/r/nielskrijger/patterncatalog?branch=master)
+[![Coverage Status](https://img.shields.io/coveralls/nielskrijger/patterncatalog.svg)](https://coveralls.io/r/nielskrijger/patterncatalog?branch=master)[![Circle CI](https://circleci.com/gh/nielskrijger/patterncatalog/tree/master.svg?style=svg)](https://circleci.com/gh/nielskrijger/patterncatalog/tree/master)
 
 # PatternCatalog
 
