@@ -4,7 +4,6 @@ process.env.NODE_ENV = 'test'; // set node environment to load correct configura
 
 var request = require('request');
 var assert = require('chai').assert;
-var _ = require('lodash');
 var config = require('../lib/config');
 var mongodb = require('../lib/mongodb');
 var log = require('../lib/logger');
@@ -41,22 +40,4 @@ module.exports.getPattern = function(slug, callback) {
         uri: path + '/api/patterns/' + slug,
         json: true
     }, callback);
-};
-
-// TODO add validation method to body
-module.exports.hasValidationError = function(body, dataPath, code, params) {
-    assert.equal(body.status, 400);
-    assert.equal(body.code, 'ValidationError');
-    assert.equal(body.message, 'One or more request parameters are invalid');
-    assert.ok(body.errors);
-    var found = false;
-    var i = 0;
-    while (!found && i < body.errors.length) {
-        var error = body.errors[i];
-        found = (error.dataPath === dataPath && error.code === code && _.isEqual(error.params, params));
-        i++;
-    }
-    if (!found) {
-        assert.fail(body.errors, {}, 'No ' + code + ' error with dataPath "' + dataPath + '" found');
-    }
 };

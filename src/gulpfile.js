@@ -28,14 +28,14 @@ gulp.task('test', 'Runs all unit and API tests', function(cb) {
         .pipe(istanbul.hookRequire()) // Force `require` to return covered files
         .on('finish', function() {
             gulp.src(['test/**/*.js'])
-            .pipe(mocha({
-                reporter: 'spec',
-                timeout: 10000
-            }))
-            .pipe(istanbul.writeReports({
-                reporters: ['lcov', 'json', 'text', 'text-summary']
-            }))
-            .on('end', cb);
+                .pipe(mocha({
+                    reporter: 'spec',
+                    timeout: 10000
+                }))
+                .pipe(istanbul.writeReports({
+                    reporters: ['lcov', 'json', 'text', 'text-summary']
+                }))
+                .on('end', cb);
         });
 });
 

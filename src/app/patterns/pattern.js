@@ -11,7 +11,7 @@ module.exports.postPattern = function(req, res, next) {
             return patternModel.create(req.body);
         })
         .then(function(pattern) {
-            res.setHeader('Location', '/api/patterns/' + pattern.slug);
+            res.setHeader('Location', '/api/patterns/' + pattern.id);
             res.status(201).json(patternResponse(pattern));
             log.debug('Created new pattern', { object: pattern });
         })
@@ -38,10 +38,11 @@ module.exports.getPattern = function(req, res, next) {
  */
 function patternResponse(pattern) {
     return {
-        name: pattern.name,
+        id: pattern.id,
         rev: pattern.rev,
-        markdown: pattern.markdown,
+        name: pattern.name,
         slug: pattern.slug,
+        markdown: pattern.markdown,
         html: pattern.html
     };
 }

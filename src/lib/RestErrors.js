@@ -39,10 +39,8 @@ util.inherits(ValidationError, RestError);
 module.exports.ValidationError = ValidationError;
 
 /**
- * ## ResourceExistsError
- * This error is thrown when a resource already exists.
+ * Error thrown when a resource already exists.
  *
- * @class
  * @extends RestError
  * @param {String} message The error message.
  */
@@ -54,9 +52,8 @@ util.inherits(ResourceExistsError, RestError);
 module.exports.ResourceExistsError = ResourceExistsError;
 
 /**
- * This error is thrown when a pre-condition failed. This error is indicative for a coding error.
+ * Error thrown when a pre-condition failed. This error is indicative for a coding error.
  *
- * @class
  * @extends RestError
  * @param {String} message The error message.
  */
@@ -69,9 +66,8 @@ util.inherits(PreConditionError, RestError);
 module.exports.PreConditionError = PreConditionError;
 
 /**
- * This error is thrown when a resource could not be found.
+ * Error thrown when a resource could not be found.
  *
- * @class
  * @extends RestError
  * @param {String} message The error message.
  */
@@ -83,9 +79,8 @@ util.inherits(ResourceNotFoundError, RestError);
 module.exports.ResourceNotFoundError = ResourceNotFoundError;
 
 /**
- * This error is thrown when an unexpected problem occurred while persisting the entity.
+ * Error thrown when an unexpected problem occurred while persisting the entity.
  *
- * @class
  * @extends RestError
  * @param {String} message The database error message.
  * @param {Object[]} [errors] A list of errors that occurred.
