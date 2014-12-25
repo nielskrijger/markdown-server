@@ -1,5 +1,6 @@
 'use strict';
 
+var moment = require('moment');
 var log = require('../../lib/logger');
 var schemaValidator = require('../../lib/schemaValidator');
 var patternModel = require('../models/pattern');
@@ -11,7 +12,7 @@ module.exports.postPattern = function(req, res, next) {
             return patternModel.create(req.body);
         })
         .then(function(pattern) {
-            res.setHeader('Location', '/api/patterns/' + pattern.id);
+            res.setHeader('Location', '/api/patterns/' + pattern._id);
             res.status(201).json(patternResponse(pattern));
             log.debug('Created new pattern', { object: pattern });
         })
@@ -30,6 +31,22 @@ module.exports.getPattern = function(req, res, next) {
         });
 };
 
+module.exports.getPatterns = function(req, res, next) {
+    patternModel.search(0, 10)
+        .then(function(patterns) {
+            var response = {
+                items: []
+            };
+            patterns.forEach(function(pattern) {
+                response.items.push(patternResponse(pattern));
+            });
+            res.status(200).json(response);
+        })
+        .catch(function(err) {
+            return next(err);
+        });
+};
+
 /**
  * Generates a pattern response object from a database object.
  *
@@ -38,11 +55,12 @@ module.exports.getPattern = function(req, res, next) {
  */
 function patternResponse(pattern) {
     return {
-        id: pattern.id,
+        id: pattern._id,
         rev: pattern.rev,
         name: pattern.name,
         slug: pattern.slug,
         markdown: pattern.markdown,
-        html: pattern.html
+        html: pattern.html,
+        created: moment(pattern.created).utc().format()
     };
 }

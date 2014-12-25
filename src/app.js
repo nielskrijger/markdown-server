@@ -26,6 +26,7 @@ log.info('Server architecture: ' + process.platform);
 // Routes
 app.post('/api/patterns', patterns.postPattern);
 app.get('/api/patterns/:slug', patterns.getPattern);
+app.get('/api/patterns', patterns.getPatterns);
 
 app.use(function(req, res, next) {
     // TODO return proper error with the same format as other errors
@@ -36,9 +37,9 @@ app.use(errorHandler);
 
 function logErrors(err, req, res, next) {
     if (err.status && err.status < 500) {
-        log.info('Client error', err);
+        log.info('Client error', { error: err });
     } else {
-        log.error('Server error', err);
+        log.error('Server error', { error: err });
     }
     next(err);
 }

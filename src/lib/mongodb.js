@@ -1,9 +1,18 @@
 'use strict';
 
 var BPromise = require('bluebird');
-var mongodb = BPromise.promisifyAll(require('mongodb'));
+var mongodb = require('mongodb');
+BPromise.promisifyAll(mongodb);
 var mongoClient = mongodb.MongoClient;
 var collection = mongodb.Collection;
+
+collection.prototype._find = collection.prototype.find;
+collection.prototype.find = function() {
+    var cursor = this._find.apply(this, arguments);
+    cursor.toArrayAsync = BPromise.promisify(cursor.toArray, cursor);
+    cursor.countAsync = BPromise.promisify(cursor.count, cursor);
+    return cursor;
+}
 
 var mongo = {
 

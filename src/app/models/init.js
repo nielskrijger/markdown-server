@@ -20,7 +20,7 @@ function patternNameIndex() {
         unique: true,
         background: config.get('mongodb.createIndexInBackground')
     };
-    return db.collection('patterns').ensureIndexAsync({name: 1}, options);
+    return db.collection('patterns').ensureIndexAsync({slug: 1}, options);
 }
 
 function patternSlugIndex() {
@@ -28,5 +28,5 @@ function patternSlugIndex() {
         unique: true,
         background: config.get('mongodb.createIndexInBackground')
     };
-    return db.collection('patterns').ensureIndexAsync({slug: 1}, options);
+    return db.collection('patterns').ensureIndexAsync({created: -1}, options);
 }
