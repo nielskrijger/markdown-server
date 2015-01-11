@@ -4,17 +4,19 @@ var moment = require('moment');
 var log = require('../../lib/logger');
 var schemaValidator = require('../../lib/schemaValidator');
 var patternModel = require('../models/pattern');
-var schema = require('./schema.json');
+var patternSchema = require('./schema.json');
+var queryRequestSchema = require('./searchRequest.json');
+var CollectionRepresentation = require('../../lib/CollectionRepresentation');
 
 module.exports.postPattern = function(req, res, next) {
-    schemaValidator.validate(req.body, schema)
+    schemaValidator.validate(req.body, patternSchema)
         .then(function() {
             return patternModel.create(req.body);
         })
         .then(function(pattern) {
             res.setHeader('Location', '/api/patterns/' + pattern._id);
             res.status(201).json(patternResponse(pattern));
-            log.debug('Created new pattern', { object: pattern });
+            log.debug({ message: 'Created new pattern', object: pattern });
         })
         .catch(function(err) {
             return next(err);
@@ -32,15 +34,19 @@ module.exports.getPattern = function(req, res, next) {
 };
 
 module.exports.getPatterns = function(req, res, next) {
-    patternModel.search(0, 10)
+    if (req.query.offset === undefined) {
+        req.query.offset = 0;
+    }
+    if (req.query.limit === undefined) {
+        req.query.limit = 10;
+    }
+    schemaValidator.validate(req.body, queryRequestSchema)
+        .then(function() {
+            return patternModel.search(req.query.offset, req.query.limit);
+        })
         .then(function(patterns) {
-            var response = {
-                items: []
-            };
-            patterns.forEach(function(pattern) {
-                response.items.push(patternResponse(pattern));
-            });
-            res.status(200).json(response);
+            var repr = new CollectionRepresentation(req.url, patterns, req.query.offset, req.query.limit, 10, 0);
+            res.status(200).json(repr.representation(patternResponse));
         })
         .catch(function(err) {
             return next(err);

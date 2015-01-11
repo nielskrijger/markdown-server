@@ -2,6 +2,7 @@
 
 var BPromise = require('bluebird');
 var mongodb = require('mongodb');
+var DatabaseError = require('./RestErrors').DatabaseError;
 BPromise.promisifyAll(mongodb);
 var mongoClient = mongodb.MongoClient;
 var collection = mongodb.Collection;
@@ -36,6 +37,9 @@ var mongo = {
             return mongoClient.connectAsync(connectionString)
                 .then(function(db) {
                     self.conn = db;
+                })
+                .catch(function(e) {
+                    throw e;
                 });
         } else {
             return Promise.throw(new Error('Already connected'));

@@ -37,9 +37,9 @@ app.use(errorHandler);
 
 function logErrors(err, req, res, next) {
     if (err.status && err.status < 500) {
-        log.info('Client error', { error: err });
+        log.info({ message: 'Client error', error: err });
     } else {
-        log.error('Server error', { error: err });
+        log.error({ message: 'Server error', error: err });
     }
     next(err);
 }
@@ -76,7 +76,8 @@ function initApplication() {
             return server;
         })
         .catch(function(e) {
-            log.error('An error occurred during initialization', e);
+            log.error('An error occurred during initialization');
+            throw e;
         });
 }
 

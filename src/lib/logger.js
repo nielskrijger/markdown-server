@@ -1,7 +1,7 @@
 'use strict';
 
 var winston = require('winston');
-var Logentries = require('winston-logentries');
+require('winston-loggly');
 var os = require('os');
 var _ = require('lodash');
 var config = require('./config');
@@ -19,26 +19,27 @@ if (config.get('log.stdout.level') != 'none') {
     );
 }
 
-// Configure log stream to logentries.
-if (config.get('log.logentries.level') != 'none') {
-    if (_.isEmpty(config.get('log.logentries.token'))) {
-        throw new Error('No logentries token configured (set in configuration file or as LOGENTRIES_TOKEN env variable)');
-    }
+// Configure log stream to loggly.
+if (config.get('log.loggly.level') != 'none') {
+    var tags = config.get('log.loggly.tags');
     transports.push(
-        new winston.transports.Logentries({
-            level: config.get('log.logentries.level'),
-            token: config.get('log.logentries.token')
+        new winston.transports.Loggly({
+            level: config.get('log.loggly.level'),
+            token: config.get('log.loggly.token'),
+            subdomain: config.get('log.loggly.subdomain'),
+            tags: (tags instanceof Array) ? tags : tags.split(','),
+            json: true
         })
     );
 }
 
-// Instantiates the Bunyan logger.
-var logger = new winston.Logger({
+// Instantiates the Winston logger.
+var log = new (winston.Logger)({
     transports: transports
 });
 
-logger.on('error', function(err) {
+log.on('error', function(err) {
     console.log('Error occurred while processing a log message: ' + err);
 });
 
-module.exports = logger;
+module.exports = log;

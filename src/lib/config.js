@@ -1,7 +1,7 @@
 'use strict';
 
 var convict = require('convict');
-var defaultConfig = require('../config/default.json');
+var defaultConfig = require('../config/default');
 
 var conf = convict(defaultConfig)
 var env = conf.get('env');

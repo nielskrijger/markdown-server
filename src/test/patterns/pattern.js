@@ -4,6 +4,7 @@ var assert = require('chai').assert;
 var uuid = require('node-uuid');
 var moment = require('moment');
 var util = require('util');
+var async = require('async');
 var testUtil = require('../testUtil');
 var e2e = require('../e2e');
 
@@ -79,4 +80,33 @@ describe('patterns/pattern.js:', function() {
             });
         });
     });
+
+    describe('GET patterns', function(done) {
+
+        beforeEach(function(done) {
+            insertMultiplePatterns(pattern, 10, function(err, patterns) {
+                assert(!err);
+                done();
+            });
+        });
+
+        it('should successfully retrieve a list of patterns', function(done) {
+            e2e.getPatterns(function(err, res, body) {
+                console.log('ADFSDFSDF' + util.inspect(body));
+                testUtil.assertObject(body, expected);
+                done();
+            });
+        });
+    });
 });
+
+function insertMultiplePatterns(pattern, repeat, callback) {
+    async.timesSeries(repeat, function(n, next) {
+        pattern.name = uuid.v4();
+        e2e.postPattern(pattern, function(err, response, body) {
+            next(err, body);
+        });
+    }, function(err, patterns) {
+        callback(err, patterns);
+    });
+}

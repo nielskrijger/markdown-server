@@ -4,7 +4,7 @@
         "stdout": {
             "level": "debug"
         },
-        "logentries": {
+        "loggly": {
             "level": "none"
         }
     }

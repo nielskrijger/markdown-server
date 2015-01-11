@@ -1,8 +1,12 @@
-{
+'use strict';
+
+var os = require('os');
+
+module.exports = {
     "env": {
         "doc": "The applicaton environment.",
-        "format": ["local", "development", "test", "production"],
-        "default": "production",
+        "format": ["development", "test", "production"],
+        "default": "development",
         "env": "NODE_ENV"
     },
     "port": {
@@ -41,18 +45,29 @@
                 "env": "LOG_STDOUT_LEVEL"
             }
         },
-        "logentries": {
+        "loggly": {
             "level": {
                 "doc": "Log everything from this level and above. Set to 'none' to disable the log stream.",
                 "format": ["none", "verbose", "debug", "info", "warn", "error"],
                 "default": "info",
-                "env": "LOGENTRIES_LEVEL"
+                "env": "LOGGLY_LEVEL"
             },
             "token": {
-                "doc": "The log entries token.",
+                "doc": "The loggly token.",
                 "default": "",
-                "env": "LOGENTRIES_TOKEN"
+                "env": "LOGGLY_TOKEN"
+            },
+            "subdomain": {
+                "doc": "The loggly subdomain.",
+                "default": "",
+                "env": "LOGGLY_SUBDOMAIN"
+            },
+            "tags": {
+                "doc": "An array of tags to send to loggly with each log request",
+                "default": [os.hostname(), "patterncatalog"],
+                "format": Array,
+                "env": "LOGGLY_TAGS"
             }
         }
     }
-}
+};

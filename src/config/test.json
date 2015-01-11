@@ -1,8 +1,9 @@
 {
     "env": "test",
     "log": {
-        "logentries": {
-            "level": "debug"
+        "loggly": {
+            "level": "debug",
+            "tags": ["test", "patterncatalog"]
         }
     }
 }

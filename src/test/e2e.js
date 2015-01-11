@@ -41,3 +41,10 @@ module.exports.getPattern = function(slug, callback) {
         json: true
     }, callback);
 };
+
+module.exports.getPatterns = function(callback) {
+    request.get({
+        uri: path + '/api/patterns',
+        json: true
+    }, callback);
+};
