@@ -90,7 +90,7 @@ describe('patterns/pattern.js:', function() {
             });
         });
 
-        it('should successfully retrieve a list of patterns', function(done) {
+        it.skip('should successfully retrieve a list of patterns', function(done) {
             e2e.getPatterns(function(err, res, body) {
                 console.log('ADFSDFSDF' + util.inspect(body));
                 testUtil.assertObject(body, expected);
