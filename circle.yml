@@ -12,7 +12,7 @@ dependencies:
 
 test:
   override:
-    - docker run --env-file=./deploy/environment_variables --link=db:db nielskrijger/patterncatalog:latest npm run ci
+    - docker run --env-file=./deploy/environment_variables nielskrijger/patterncatalog:latest npm run ci
 
 deployment:
   hub:
