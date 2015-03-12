@@ -62,8 +62,6 @@ describe('patterns/pattern.js:', function() {
         it.skip('should fail when name is already in use', function(done) {
             e2e.postPattern(pattern, function(err, res, body) {
                 e2e.postPattern(pattern, function(err, res, body) {
-                    console.log(err);
-                    console.log(body);
                     done();
                 });
             });
@@ -84,16 +82,16 @@ describe('patterns/pattern.js:', function() {
     describe('GET patterns', function(done) {
 
         beforeEach(function(done) {
-            insertMultiplePatterns(pattern, 10, function(err, patterns) {
+            insertMultiplePatterns(pattern, 20, function(err, patterns) {
                 assert(!err);
                 done();
             });
         });
 
-        it.skip('should successfully retrieve a list of patterns', function(done) {
+        it('should successfully retrieve a list of patterns', function(done) {
             e2e.getPatterns(function(err, res, body) {
-                console.log('ADFSDFSDF' + util.inspect(body));
-                testUtil.assertObject(body, expected);
+                assert.equal(body.items.length, 10);
+                testUtil.assertObject(body.meta, { total: /^[0-9]+$/, size: 10, offset: 0, limit: 10 });
                 done();
             });
         });

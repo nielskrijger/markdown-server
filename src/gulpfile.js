@@ -58,7 +58,7 @@ gulp.task('build', 'Runs lint, tests and code coverage', function(callback) {
         'lint',
         'test',
         function() {
-            process.exit(0); // Alwayslose even if other processes are still running
+            process.exit(0); // Always close even if other processes are still running
             callback();
         });
 });

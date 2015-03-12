@@ -3,30 +3,29 @@
 var assert = require('chai').assert;
 var _ = require('lodash');
 
-var assertObject = function(actual, expected, parentProperties) {
+module.exports.assertObject = function(actual, expected, parentProperties) {
     if (!parentProperties) {
         parentProperties = [];
     }
     for (var property in expected) {
         if (expected.hasOwnProperty(property)) {
-            console.log(property);
             var propertyName = (parentProperties.length > 0) ? (parentProperties.join('.')) + '.' + property : property;
             if (expected[property] instanceof RegExp) {
-                assert.ok(actual[property], 'Property "' + propertyName + '" cannot be empty');
+                console.log('Regexp: ' + property);
                 assert.ok(actual[property].match(expected[property]),
-                        'Expected "' + propertyName + '" to match regex "' + expected[property].toString()+ '"');
+                    'Expected "' + propertyName + '" to match regex "' + expected[property].toString()+ '"');
             } else if (expected[property] instanceof Object) {
+                console.log('Object: ' + property);
                 parentProperties.push(property);
                 assert.ok(actual[property], 'Property "' + propertyName + '" cannot be empty');
                 assertObject(actual[property], expected[property], parentProperties);
             } else {
+                console.log('Equal: ' + property);
                 assert.equal(actual[property], expected[property], 'Property "' + propertyName + '" was invalid');
             }
         }
     }
 };
-
-module.exports.assertObject = assertObject;
 
 module.exports.assertValidationError = function(body, dataPath, code, params) {
     assert.equal(body.status, 400);

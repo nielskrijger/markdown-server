@@ -25,4 +25,4 @@ report
 node_modules
 
 # Local environment script
-local_env.sh
+.env

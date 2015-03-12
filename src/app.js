@@ -56,7 +56,7 @@ function initApplication() {
             return dbInit();
         })
         .then(function() {
-            var server = app.listen(3000, function() {
+            var server = app.listen(config.get('port'), function() {
                 var host = this.address().address;
                 var port = this.address().port;
 

@@ -1,5 +1,6 @@
 {
     "env": "test",
+    "port": 4000,
     "log": {
         "loggly": {
             "level": "debug",
